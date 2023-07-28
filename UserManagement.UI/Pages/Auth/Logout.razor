@@ -1,0 +1,39 @@
+@page "/logout"
+@using global::UserManagement.UI.Services
+@inject IAccountService AccountService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+@if (_isLoading)
+{
+    <MudProgressCircular Style="position: absolute;top: 50%;left: 50%" Color="Color.Primary" Indeterminate="true"/>
+}
+else
+{
+    <div class="container">
+        <div class="icon">
+            <MudIcon Style="font-size: 100px; text-align: center" Icon="@Icons.Material.Filled.PowerSettingsNew" Color="Color.Primary" Size="Size.Large"/>
+        </div>
+        <h3>Hope to see you back soon</h3>
+        <p>Are you sure want to logout from the system?</p>
+        <MudButton Style="display:block;width:fit-content; margin: auto" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Logout" Color="Color.Primary"
+                   OnClick="LogoutEvent">Yes, I'm sure</MudButton>
+    </div>
+}
+
+@code{
+    private bool _isLoading = true;
+    protected override Task OnInitializedAsync()
+    {
+        _isLoading = false;
+        return Task.CompletedTask;
+    }
+
+    private async Task LogoutEvent()
+    {
+        _isLoading = true;
+        await AccountService.LogoutAsync();
+        Snackbar.Add("Logout Successfully", Severity.Success);
+        NavigationManager.NavigateTo("/login");
+    }
+}

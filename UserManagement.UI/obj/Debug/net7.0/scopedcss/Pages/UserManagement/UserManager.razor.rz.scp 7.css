@@ -1,0 +1,21 @@
+.table[b-3a7l549dg5]{
+    height: inherit;
+}
+.table[b-3a7l549dg5]  .table-content{
+    position: relative;
+    box-shadow: none;
+    border-radius: 0px;
+    height: 100%;
+    
+}
+
+.table[b-3a7l549dg5]  .mud-table-pagination{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    right: 0px;
+    
+}
+.table[b-3a7l549dg5]  .mud-table-container{
+    height: calc(100% - 150px);
+}

@@ -1,0 +1,15 @@
+@inject NavigationManager NavigationManager
+
+<MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.SwipeLeftAlt"OnClick="BackTo">@Title</MudButton>
+
+@code {
+    [Parameter]
+    public string? Url { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
+
+    private void BackTo()
+    {
+        NavigationManager.NavigateTo(Url??"/profile");
+    }
+}

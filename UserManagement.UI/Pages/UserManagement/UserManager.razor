@@ -1,0 +1,181 @@
+@page "/user-management"
+@inject NavigationManager NavigationManager
+@using global::UserManagement.Shared.Models.Dtos
+@using global::UserManagement.UI.Components
+@using global::UserManagement.UI.Services
+@inject IUserService UserService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<div class="table">
+    <MudTable Class="table-content" FixedHeader="true" ServerData="@(new Func<TableState, Task<TableData<UserDto>>>(ServerReload))"
+              Hover="true" @ref="_table" SortLabel="Sort By" T="UserDto" >
+        <ToolBarContent>    
+            <MudText Typo="Typo.h6" Class="mr-5">User Management</MudText>
+            <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="AddUser"></MudIconButton>
+            @* <MudButton Size="Size.Small" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" >Add User</MudButton> *@
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+            <ColGroup>
+                <col style="width: 10%;" />
+                <col style="width: 40%;"/>
+                <col style="width: 35%;" />
+                <col style="width: 15%;" />
+            </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel  T="UserDto">Index</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="UserName" T="UserDto">UserName</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel  SortLabel="Roles" T="UserDto">Roles</MudTableSortLabel></MudTh>
+            <MudTh ><MudTableSortLabel  T="UserDto">Action</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@(UserDtos.IndexOf(context).ToString())</MudTd>
+            <MudTd DataLabel="Sign">@context.UserName</MudTd>
+            <MudTd DataLabel="Name">
+               @foreach (var element in RenderTagRole(context.Roles))
+               {
+                   <MudChip Size="Size.Small" Variant="@element.Variant" Label="@element.Label" Color="@element.Color">@element.Text</MudChip>
+               }
+            </MudTd> 
+            <MudTd DataLabel="Position">
+                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@(() => EditUser(context.Id.ToString()))"></MudIconButton>
+                <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(()=>DeleteUser(context.Id.ToString()))"></MudIconButton>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{10,20,50}"/>
+        </PagerContent>
+    </MudTable>
+</div>
+
+
+@code {
+    private MudTable<UserDto>? _table;
+    List<UserDto> UserDtos = new();
+    private string _searchString = ""; 
+    
+    private async Task<TableData<UserDto>> ServerReload(TableState state)
+    {
+        var userParams = new UserParams
+        {
+            PageSize = state.PageSize,
+            PageNumber = state.Page,
+            SearchName = _searchString
+        };
+        var result = await UserService.GetUsersAsync(userParams);
+        await Task.Delay(300);
+        if (result == null)
+            return new TableData<UserDto>
+            {
+                TotalItems = 0,
+                Items = Enumerable.Empty<UserDto>()
+            };
+        var data = result.Results;
+        data = new List<UserDto>(state.SortLabel switch
+        {
+            "UserName" => data.OrderByDirection(state.SortDirection, o => o.UserName),
+            "Roles" => data.OrderByDirection(state.SortDirection, o => o.Roles),
+            
+            _ => data
+            });
+        
+        UserDtos = data;
+        return new TableData<UserDto>{TotalItems = result.TotalCount, Items = data};
+    }
+
+    private void OnSearch(string text)
+    {
+        _searchString = text;
+        _table?.ReloadServerData();
+    }
+    private class MudChip
+    {
+        public bool Label;
+        public Color Color;
+        public Variant Variant;
+        public string? Text;
+    }
+
+    private IEnumerable<MudChip> RenderTagRole(string? roles)
+    {
+        if (string.IsNullOrEmpty(roles)) return Enumerable.Empty<MudChip>();
+        var result = new List<MudChip>();
+        var roleList = roles.Split(",");
+        foreach (var role in roleList)
+        {
+            switch (role)
+            {
+                case "Distributor":
+                    result.Add(new MudChip
+                    {
+                        Label = true,
+                        Color = Color.Primary,
+                        Variant = Variant.Text,
+                        Text = "Distributor"
+                    });
+                    break;
+                case "Administrator":
+                    result.Add(new MudChip
+                    {
+                        Label = true,
+                        Color = Color.Info,
+                        Variant = Variant.Text,
+                        Text = "Administrator"
+                    });
+                    break;
+                default:
+                    result.Add(new MudChip
+                    {
+                        Label = true,
+                        Color = Color.Default,
+                        Variant = Variant.Text,
+                        Text = "User"
+                    });
+                    break;
+            }
+        }
+        return result;
+    }
+    
+    private async Task DeleteUser(string id)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            FullWidth = true,
+            CloseButton = true,
+            MaxWidth= MaxWidth.Small
+        };
+        var dialogReference =DialogService.Show<Dialog>("Delete User", options);
+        var resultConfirm =  !(await dialogReference.Result).Canceled;
+        if (resultConfirm)
+        {
+            var result = await UserService.DeleteUserAsync(new string(id));
+            if (result)
+            {
+                _table?.ReloadServerData();
+                Snackbar.Add("Delete User Successfully", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Delete User Unsuccessfully", Severity.Error);
+            }
+        }
+    }
+    private void EditUser(string userId)
+    {
+        NavigationManager.NavigateTo("/EditUser/" + userId);
+    }
+    private void AddUser()
+    {
+        NavigationManager.NavigateTo("/AddUser");
+    }
+}

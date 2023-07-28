@@ -1,0 +1,115 @@
+@page "/AddUser"
+@using global::UserManagement.Shared.Models.Dtos
+@using global::UserManagement.UI.Services
+@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+
+<UserManagement.UI.Components.BackToPage Url="/user-management" Title="Back to User Management"/>
+<div class="edit-user">
+    <h2 class="title">Add User</h2>
+    <form class="form">
+        <div class="input-group">
+            <label for="userName">UserName</label>
+            <input id="userName" placeholder="UserName" @bind="@UserDto!.UserName" />
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input id="password" placeholder="Password" @bind="@Password" type="password"/>
+        </div>
+        <div class="input-group">
+            <label for="re-password">Confirm Password</label>
+            <input id="re-password" placeholder="Confirm Password" @bind="@RePassword" type="password"/>
+        </div>
+
+
+        <div class="input-group">
+            <label>Roles</label>
+            <MudSelect Placeholder="Role" Margin="Margin.Dense" T="string" Variant="Variant.Outlined" ValueChanged="@(e => SelectRoles(e.ToString()))">
+                <MudSelectItem Value="@("Distributor")"/>
+                <MudSelectItem Value="@("Administrator")"/>
+                <MudSelectItem Value="@("User")"/>
+            </MudSelect>
+        </div>
+        <ul class="messageError">
+            @foreach (var message in MessageError??new ())
+            {
+                <li>@message</li>
+            }
+        </ul>
+        <div class="footer">
+            <div class="action">
+                <MudButton Variant="Variant.Filled" Class="btn-reset" OnClick="ResetField">Reset</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit">Add User</MudButton>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@code {
+
+    private UserDto? UserDto { get; set; } = new();
+    private string? Password { get; set; } 
+    private string? RePassword { get; set; }
+    private List<string>? MessageError { get; set; } = new();
+
+    private void SelectRoles(string role)
+    {
+        if (UserDto != null) 
+            UserDto.Roles = role != "User" ? $"User,{role}" : "User";
+    }
+
+    private void ResetField()
+    {
+        UserDto = new UserDto();
+        Password = "";
+        RePassword = "";
+        MessageError = new List<string>();
+    }
+
+    private async Task Submit()
+    {
+        var validationErrors = new List<ValidationResult>();
+        MessageError = new List<string>();
+        var isValid = UserDto != null && Validator.TryValidateObject(UserDto, new ValidationContext(UserDto), validationErrors, validateAllProperties: true);
+        foreach (var error in validationErrors.Where(error => error.ErrorMessage != null))
+        {
+            if (error.ErrorMessage != null) MessageError?.Add(error.ErrorMessage);
+        }
+        var validateGuidRegex = new Regex("^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+        if (Password != null && !validateGuidRegex.IsMatch(Password))
+        {
+            isValid = false;
+            MessageError?.Add("Password has minimum 8 characters in length, at least one uppercase letter, one digit and one special character");
+        }
+        if (string.IsNullOrEmpty(Password?.Trim()))
+        {
+            isValid = false;
+            MessageError?.Add("Password is required");
+        }
+        if (Password != RePassword)
+        {
+            isValid = false;
+            MessageError?.Add("Password and Confirm Password does not match");
+        }
+        if (isValid)
+        {
+            var result = UserDto != null && await UserService.AddUserAsync(UserDto, Password);
+            if (result)
+            {
+                Snackbar.Add("Add User Successfully", Severity.Success);
+                NavigationManager.NavigateTo("/user-management");
+            }
+            else
+            {
+                Snackbar.Add("Add User Unsuccessfully", Severity.Error);
+            }
+        }
+
+    }
+
+}

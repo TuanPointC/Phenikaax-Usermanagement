@@ -1,0 +1,60 @@
+.edit-user{
+    max-width: 700px;
+    margin: 10px auto;
+    border: 1px solid var(--background-body);
+    padding: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 40px;
+}
+.form{
+}
+.title {
+    margin-bottom: 20px;
+}
+
+.form .input-group{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.form label{
+    width: 100px;
+}
+.form input,select{
+    border: 1px solid var(--background-body);
+    padding: 10px;
+    border-radius:5px;
+    outline: none;
+    margin-top: 10px;
+    flex: 1;
+}
+.form select option{
+    background-color: var(--background-white);
+}
+.form .action{
+    width: fit-content;
+    margin-left: auto;
+}
+.footer{
+    width: calc(100% + 50px);
+    background-color: var(--background-light);
+    margin:30px -25px;
+    margin-bottom: -25px;
+    margin-top:20px;
+    padding: 20px;
+}
+.action ::deep .btn-reset{
+    margin-right: 20px;
+}
+::deep .mud-input-slot{
+    font-size:14px!important;
+    font-weight:400!important;
+}
+
+.form .messageError{
+    color: red;
+    margin-top: 10px;
+    margin-left: 100px;
+}

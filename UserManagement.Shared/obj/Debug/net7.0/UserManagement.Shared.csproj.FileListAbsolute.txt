@@ -1,0 +1,12 @@
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/bin/Debug/net7.0/UserManagement.Shared.deps.json
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/bin/Debug/net7.0/UserManagement.Shared.dll
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/bin/Debug/net7.0/UserManagement.Shared.pdb
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.csproj.AssemblyReference.cache
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.AssemblyInfoInputs.cache
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.AssemblyInfo.cs
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.csproj.CoreCompileInputs.cache
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.dll
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/refint/UserManagement.Shared.dll
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/UserManagement.Shared.pdb
+/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.Shared/obj/Debug/net7.0/ref/UserManagement.Shared.dll

@@ -1,0 +1,31 @@
+.profile{
+  position: relative;
+}
+.banner{
+  height: 200px;
+  width: 100%;
+  background-image:url(../images/robot.jpeg);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size: cover;
+}
+.avatar{
+  width: 100px;
+  border: 3px solid var(--background-white);
+  position: absolute;
+  top: 150px;
+  left: 20px;
+  background-color: var(--background-body);
+  border-radius: 50%;
+  padding: 10px;
+}
+.info{
+  margin-top: 60px;
+  margin-left: 20px;
+}
+.des{
+  margin-left: 10px;
+  max-width:500px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

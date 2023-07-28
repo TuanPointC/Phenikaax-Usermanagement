@@ -1,0 +1,21 @@
+.table{
+    height: inherit;
+}
+.table ::deep .table-content{
+    position: relative;
+    box-shadow: none;
+    border-radius: 0px;
+    height: 100%;
+    
+}
+
+.table ::deep .mud-table-pagination{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    right: 0px;
+    
+}
+.table ::deep .mud-table-container{
+    height: calc(100% - 150px);
+}

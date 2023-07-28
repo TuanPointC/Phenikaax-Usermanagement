@@ -1,0 +1,103 @@
+﻿@using global::UserManagement.Shared.Models.Dtos
+@using System.Security.Claims
+@inject IJSRuntime JS
+
+<div class="header">
+  <nav class="navigation @(IsSpan? "active" :"")">
+    <div class="toggle" onclick="@SpanMenu">
+      <MudIcon class="icon-toggle" Icon="@ChooseIconToggle()"/>
+    </div>
+    <div class="top">
+        <img src="/Images/phenikaa-icon.png" alt="">
+        <div class="info">
+          <h1>@(UserDto?.UserName ?? "")</h1>
+          <MudChip Variant="Variant.Text" Label="true" Color="Color.Primary">@(GetRole(UserDto?.Roles))</MudChip>
+        </div>
+    </div>
+    <ul>
+      <span class="list-group">Functions</span>
+      <AuthorizeView Roles="Administrator, Distributor">
+        <li class="list">
+          <NavLink class="nav-link" href="/user-management" Match="NavLinkMatch.All">
+            <MudIcon
+              Icon="@Icons.Material.Filled.People"
+              Title="User Management"/>
+            <span> User Management</span>
+          </NavLink>
+        </li>
+      </AuthorizeView>
+
+      <span class="list-group">Individual</span>
+      <li class="list">
+        <NavLink class="nav-link" href="/profile" Match="NavLinkMatch.All">
+          <MudIcon Icon="@Icons.Material.Filled.Person" Title="Profile" />
+          <span>Profile</span>
+        </NavLink>
+      </li>
+      <li class="list">
+        <NavLink class="nav-link" href="/change-password" Match="NavLinkMatch.All">
+          <MudIcon
+            Icon="@Icons.Material.Filled.Password"
+            Title="User Management"
+          />
+         <span>Change Password</span>
+        </NavLink>
+      </li>
+      <li class="list">
+        <NavLink class="nav-link" href="/logout" Match="NavLinkMatch.All">
+          <MudIcon
+            Icon="@Icons.Material.Filled.Logout"
+            Title="User Management"
+          />
+          <span>Logout</span>
+        </NavLink>
+      </li>
+      <span class="list-group">Customizations</span>
+      <li class="list" style="cursor: pointer">
+        <div class="nav-link" @onclick="@ChangeTheme">
+          <MudIcon
+            Icon="@(_isDark? @Icons.Material.Filled.DarkMode: @Icons.Material.Outlined.LightMode)"
+            Title="User Management"
+            />
+          <span>@(_isDark? "Dark" : "Light")</span>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+@code {
+
+  [Parameter]
+  public UserDto? UserDto { get; set; } = new();
+  private bool _isDark = false;
+
+  private bool IsSpan {get;set;} = true;
+  private string GetRole(string? roles){
+      var listRoles = roles?.Split(",");
+      if (listRoles == null) return "User";
+      foreach (var role in listRoles)
+      {
+        return role switch
+        {
+          "Distributor" => "Distributor",
+          "Administrator" => "Administrator",
+          _ => "User"
+          };
+      }
+      return "User";
+    }
+
+  private void SpanMenu(){
+      IsSpan = !IsSpan;
+    }
+  private string ChooseIconToggle(){
+      return IsSpan? @Icons.Material.Filled.ArrowCircleLeft : @Icons.Material.Filled.ArrowCircleRight;
+    }
+
+  private void ChangeTheme()
+  {
+    JS.InvokeVoidAsync("ChangeTheme",_isDark);
+    _isDark = !_isDark;
+  }
+} 

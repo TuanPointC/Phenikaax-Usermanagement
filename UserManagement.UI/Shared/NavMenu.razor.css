@@ -1,0 +1,102 @@
+
+.navigation{
+    background-color: var(--background-white);
+    width: 50px;
+    height: calc(100vh - 40px);
+    padding: 20px 10px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    position: relative;
+}
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.top .info{
+    text-align: center;
+    display: none;
+    transition: 0.3s ease;
+}
+.top img{
+    width: 30px;
+    border: 2px solid var(--background-body);
+    border-radius: 50%;
+    padding: 2px ;
+    transition: 0.3s ease;
+}
+.list-group{
+    display: none;
+    font-size: 13px;
+    margin-top: 30px;
+    margin-left: 10px;
+    color: var(--text-gray);
+    transition: 0.3s ease;
+}
+.list{
+    margin: 5px -5px;
+    transition: 0.3s all;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.list span{
+    display: none;
+}
+.list:hover{
+    background-color: #EBEFFD;
+    transition: 0.3s all;
+}
+.list:has(.nav-link.active){
+    background-color: #EBEFFD;
+}
+::deep .list:has(.nav-link.active) .nav-link{
+    color: var(--text-blue);
+}
+
+::deep .list .nav-link{
+    display: flex;
+    align-items: center;
+    color: var(--text-gray);
+    gap: 10px;
+    padding: 10px 0;
+    font-weight: 400;
+    font-size: 15px;
+}
+.toggle{
+    position: absolute;
+    top: 5px;
+    right: -8px;
+    cursor: pointer;
+    
+}
+.toggle ::deep .icon-toggle{
+    color:var(--text-blue);
+}
+/* ======== Active navigation ======= */
+.navigation.active{
+    width: 250px;
+}
+.navigation.active .top .info{
+    display: block;
+}
+.navigation.active .top img{
+    width: 80px;
+    padding: 5px ;
+}
+.navigation.active .list-group{
+    display: block;
+}
+.navigation.active .list{
+    margin: 5px 0px;
+    display: block;
+}
+.navigation.active .list span{
+    display: block;
+}
+.navigation.active ::deep .list .nav-link{
+    margin-left: 10px;
+}

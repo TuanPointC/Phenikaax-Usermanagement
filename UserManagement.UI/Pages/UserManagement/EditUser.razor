@@ -1,0 +1,153 @@
+@page "/EditUser/{UserId}"
+@using global::UserManagement.Shared.Models.Dtos
+@using global::UserManagement.UI.Services
+@using System.ComponentModel.DataAnnotations
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+@if (_isLoading)
+{
+    <MudProgressCircular Style="position: absolute;top: 50%;left: 50%" Color="Color.Primary" Indeterminate="true"/>
+}
+else
+{
+    <UserManagement.UI.Components.BackToPage Url="/user-management" Title="Back to User Management"/>
+    <div class="edit-user">
+        <h2 class="title">Edit User</h2>
+        <form class="form">
+            <div class="input-group">
+                <label for="id">Id</label>
+                <input id="id" disabled placeholder="Id" value="@UserDtoClone?.Id"/>
+            </div>
+
+            <div class="input-group">
+                <label for="userName">UserName</label>
+                <input id="userName" placeholder="UserName" value="@UserDtoClone?.UserName" @onchange="@(e => { if (UserDtoClone != null) {UserDtoClone.UserName = e.Value?.ToString(); } })"/>
+            </div>
+
+            <div class="input-group">
+                <label>Roles</label>
+                <MudSelect Margin="Margin.Dense" T="string" Variant="Variant.Outlined" Value="@ExtractRole(UserDtoClone?.Roles)" ValueChanged="@(e => SelectRoles(e.ToString()))">
+                    <MudSelectItem Value="@("Distributor")"/>
+                    <MudSelectItem Value="@("Administrator")"/>
+                    <MudSelectItem Value="@("User")"/>
+                </MudSelect>
+            </div>
+            <ul class="messageError">
+                @if (MessageError != null)
+                {
+                    foreach (var message in MessageError)
+                    {
+                        <li>@message</li>
+                    }
+                }
+            </ul>
+            <div class="footer">
+                <div class="action">
+                    <MudButton Variant="Variant.Filled" Class="btn-reset" OnClick="ResetField">Reset</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Info" Class="btn-reset" OnClick="ForceChangePassword">Change Password</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit">Save Changes</MudButton>
+                </div>
+            </div>
+
+        </form>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public string? UserId { get; set; } 
+    private bool _isLoading = true;
+
+    private UserDto? UserDto { get; set; } = new();
+    private UserDto? UserDtoClone { get; set; } = new();
+    private List<string>? MessageError { get; set; } = new();
+
+    private static string ExtractRole(string? roles)
+    {
+        if (string.IsNullOrEmpty(roles)) return "User";
+        var roleList = roles.Split(",");
+        if (roleList.Contains("Distributor"))
+        {
+            return "Distributor";
+        }
+        else if (roleList.Contains("Administrator"))
+        {
+            return "Administrator";
+        }
+        else
+        {
+            return "User";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserId != null)
+        {
+            UserDto = await UserService.GetUserByIdAsync(UserId);
+            UserDtoClone = new UserDto
+            {
+                Id = UserDto.Id,
+                UserName = UserDto.UserName,
+                Roles = UserDto.Roles
+            };
+        }
+        _isLoading = false;
+    }
+
+    private void SelectRoles(string role)
+    {
+        if (UserDtoClone != null) 
+            UserDtoClone.Roles = role != "User" ? $"User,{role}" : "User";
+    }
+
+    private void ResetField()
+    {
+        if (UserDtoClone != null)
+        {
+            if (UserDto != null)
+            {
+                UserDtoClone.Id = UserDto.Id;
+                UserDtoClone.UserName = UserDto.UserName;
+                UserDtoClone.Roles = UserDto.Roles;
+            }
+        }
+        MessageError = new List<string>();
+    }
+
+    private async Task Submit()
+    {
+        var validationErrors = new List<ValidationResult>();
+        MessageError = new List<string>();
+        var isValid = UserDtoClone != null && Validator.TryValidateObject(UserDtoClone, new ValidationContext(UserDtoClone), validationErrors, validateAllProperties: true);
+        foreach (var error in validationErrors.Where(error => error.ErrorMessage != null))
+        {
+            if (error.ErrorMessage != null) MessageError?.Add(error.ErrorMessage);
+        }
+        if (isValid)
+        {
+            if (UserDto?.UserName != UserDtoClone?.UserName || UserDtoClone?.Roles != UserDto?.Roles)
+            {
+                var result = UserDtoClone != null && await UserService.UpdateUserAsync(UserDtoClone);
+                if (result)
+                {
+                    UserDto = UserDtoClone;
+                    Snackbar.Add("Update User Successfully", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add("Update User Unsuccessfully", Severity.Error);
+                }
+            }
+
+        }
+    }
+
+    private void ForceChangePassword()
+    {
+        NavigationManager.NavigateTo($"/EditUser/ForceChangePassword/{UserId}");
+    }
+}

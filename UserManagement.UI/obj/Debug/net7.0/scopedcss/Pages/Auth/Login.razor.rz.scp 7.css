@@ -1,0 +1,60 @@
+.edit-user[b-xrdnxtsy78]{
+    max-width: 700px;
+    margin: 10px auto;
+    border: 1px solid var(--background-body);
+    padding: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 40px;
+}
+.form[b-xrdnxtsy78]{
+}
+.title[b-xrdnxtsy78] {
+    margin-bottom: 20px;
+}
+
+.form .input-group[b-xrdnxtsy78]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.form label[b-xrdnxtsy78]{
+    width: 150px;
+}
+.form input[b-xrdnxtsy78],select[b-xrdnxtsy78]{
+    border: 1px solid var(--background-body);
+    padding: 10px;
+    border-radius:5px;
+    outline: none;
+    margin-top: 10px;
+    flex: 1;
+}
+.form select option[b-xrdnxtsy78]{
+    background-color: white;
+}
+.form .action[b-xrdnxtsy78]{
+    width: fit-content;
+    margin-left: auto;
+}
+.footer[b-xrdnxtsy78]{
+    width: calc(100% + 50px);
+    background-color: var(--background-light);
+    margin:30px -25px;
+    margin-bottom: -25px;
+    margin-top:20px;
+    padding: 20px;
+}
+.action[b-xrdnxtsy78]  .btn-reset{
+    margin-right: 20px;
+}
+[b-xrdnxtsy78] .mud-input-slot{
+    font-size:14px!important;
+    font-weight:400!important;
+}
+
+.form .messageError[b-xrdnxtsy78]{
+    color: red;
+    margin-top: 10px;
+    margin-left: 100px;
+}

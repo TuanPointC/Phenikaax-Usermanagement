@@ -1,0 +1,17 @@
+:root{
+  --background-body:#D7D9DD;
+  --text-blue:#3761EE;
+  --text-gray:#707e89;
+  --text-gray-light:#c2c8d5;
+  --background-light: #f5f5f6;
+  --background-white:white;
+  --text-color:black;
+}
+
+img{
+  display: block;
+  width: 100%;
+}
+a{
+  display: block;
+}

@@ -1,0 +1,61 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/bin/Debug/net7.0/wwwroot/_framework/blazor.webassembly.js",
+      "PackagePath": "staticwebassets/_framework/blazor.webassembly.js"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/obj/Debug/net7.0/build-gz/neTIE8H3.gz",
+      "PackagePath": "staticwebassets/_framework/blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/obj/Debug/net7.0/scopedcss/bundle/UserManagement.UI.styles.css",
+      "PackagePath": "staticwebassets/UserManagement.UI.styles.css"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/Images/phenikaa-icon.png",
+      "PackagePath": "staticwebassets/Images/phenikaa-icon.png"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/Images/robot.jpeg",
+      "PackagePath": "staticwebassets/Images/robot.jpeg"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/icon-192.png",
+      "PackagePath": "staticwebassets/icon-192.png"
+    },
+    {
+      "Id": "/Users/admin/Desktop/Code Practices/WebApiCookieAuthentication/UserManagement.UI/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.UserManagement.UI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.build.UserManagement.UI.props",
+      "PackagePath": "build\\UserManagement.UI.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.UserManagement.UI.props",
+      "PackagePath": "buildMultiTargeting\\UserManagement.UI.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.UserManagement.UI.props",
+      "PackagePath": "buildTransitive\\UserManagement.UI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

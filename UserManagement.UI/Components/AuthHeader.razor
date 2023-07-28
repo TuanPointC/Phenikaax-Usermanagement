@@ -1,0 +1,10 @@
+<h3>Welcome, @UserName</h3>
+<MudMenu Icon="@Icons.Material.Filled.MoreVert">
+    <MudMenuItem IconSize="Size.Small" IconColor="Color.Primary"   Icon="@Icons.Material.Filled.Logout">Logout</MudMenuItem>
+    <MudMenuItem                                                   Icon="@Icons.Material.Filled.Password">Change Passwor</MudMenuItem>
+</MudMenu>
+
+@code {
+    [Parameter]
+    public string? UserName { get;set; }
+}

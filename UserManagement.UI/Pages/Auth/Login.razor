@@ -1,0 +1,84 @@
+@page "/login"
+@using Services
+@using Microsoft.AspNetCore.Components
+@inject IAccountService AccountService;
+@inject NavigationManager NavigationManager;
+@inject ISnackbar Snackbar
+@layout AllowLayout
+
+<div class="edit-user">
+        <h2 class="title">Login</h2>
+        <form class="form" @onkeydown="@EnterEvent">
+            <div class="input-group">
+                <label for="userName">UserName</label>
+                <input id="userName" placeholder="UserName" @bind="@_loginModel.UserName"  @oninput="@((e)=>CheckUserName(e))"/>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input id="password" placeholder="Password" @bind="@_loginModel.Password" type="password" @oninput="CheckPassword"/>
+            </div>
+
+            <div class="footer">
+                <div class="action">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoginUser" Disabled="@_isLogin">Login</MudButton>
+                </div>
+            </div>
+        </form>
+</div>
+
+@code {
+    private readonly UserLogin _loginModel = new();
+
+    private bool _isLogin = true;
+    private void CheckUserName(ChangeEventArgs changeEventArgs)
+    {
+        if (!string.IsNullOrEmpty(_loginModel.Password) && !string.IsNullOrEmpty(changeEventArgs.Value?.ToString()))
+        {
+            _isLogin = false;
+        }
+        else
+        {
+            _isLogin = true;
+        }
+    }
+
+    private void CheckPassword(ChangeEventArgs changeEventArgs)
+    {
+        if (!string.IsNullOrEmpty(changeEventArgs.Value?.ToString()) && !string.IsNullOrEmpty(_loginModel.UserName))
+        {
+            _loginModel.Password = changeEventArgs.Value.ToString();
+            _isLogin = false;
+        }
+        else
+        {
+            _isLogin = true;
+        }
+    }
+
+    private async Task EnterEvent(KeyboardEventArgs e)
+    {
+        if (e.Code is "Enter" or "NumpadEnter")
+        {
+            await LoginUser();
+        }
+    }
+
+    private async Task LoginUser()
+    {
+        if (!_isLogin)
+        {
+            var result = await AccountService.LoginAsync(_loginModel);
+            if (result)
+            {
+                await Task.Delay(300);
+                Snackbar.Add("Login successfully", Severity.Success);
+                await Task.Delay(100);
+                NavigationManager.NavigateTo("/profile");
+            }
+            else
+            {
+                Snackbar.Add("Please check your username and password!", Severity.Error);
+            }
+        }
+    }
+}

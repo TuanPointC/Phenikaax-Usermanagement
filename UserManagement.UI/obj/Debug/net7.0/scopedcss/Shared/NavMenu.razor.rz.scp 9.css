@@ -1,0 +1,102 @@
+
+.navigation[b-axd51iqmde]{
+    background-color: white;
+    width: 50px;
+    height: calc(100vh - 40px);
+    padding: 20px 10px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    position: relative;
+}
+.top[b-axd51iqmde]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.top .info[b-axd51iqmde]{
+    text-align: center;
+    display: none;
+    transition: 0.3s ease;
+}
+.top img[b-axd51iqmde]{
+    width: 30px;
+    border: 2px solid var(--background-body);
+    border-radius: 50%;
+    padding: 2px ;
+    transition: 0.3s ease;
+}
+.list-group[b-axd51iqmde]{
+    display: none;
+    font-size: 13px;
+    margin-top: 30px;
+    margin-left: 10px;
+    color: var(--text-gray);
+    transition: 0.3s ease;
+}
+.list[b-axd51iqmde]{
+    margin: 5px -5px;
+    transition: 0.3s all;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.list span[b-axd51iqmde]{
+    display: none;
+}
+.list:hover[b-axd51iqmde]{
+    background-color: #EBEFFD;
+    transition: 0.3s all;
+}
+.list:has(.nav-link.active)[b-axd51iqmde]{
+    background-color: #EBEFFD;
+}
+[b-axd51iqmde] .list:has(.nav-link.active) .nav-link{
+    color: var(--text-blue);
+}
+
+[b-axd51iqmde] .list .nav-link{
+    display: flex;
+    align-items: center;
+    color: var(--text-gray);
+    gap: 10px;
+    padding: 10px 0;
+    font-weight: 400;
+    font-size: 15px;
+}
+.toggle[b-axd51iqmde]{
+    position: absolute;
+    top: 5px;
+    right: -8px;
+    cursor: pointer;
+    
+}
+.toggle[b-axd51iqmde]  .icon-toggle{
+    color:var(--text-blue);
+}
+/* ======== Active navigation ======= */
+.navigation.active[b-axd51iqmde]{
+    width: 250px;
+}
+.navigation.active .top .info[b-axd51iqmde]{
+    display: block;
+}
+.navigation.active .top img[b-axd51iqmde]{
+    width: 80px;
+    padding: 5px ;
+}
+.navigation.active .list-group[b-axd51iqmde]{
+    display: block;
+}
+.navigation.active .list[b-axd51iqmde]{
+    margin: 5px 0px;
+    display: block;
+}
+.navigation.active .list span[b-axd51iqmde]{
+    display: block;
+}
+.navigation.active[b-axd51iqmde]  .list .nav-link{
+    margin-left: 10px;
+}

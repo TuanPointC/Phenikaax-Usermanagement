@@ -1,0 +1,41 @@
+.page {
+    position: relative;
+    display: flex;
+    background-color: var(--background-body);
+    gap: 20px;
+    padding: 20px;
+}
+.sidebar{
+    width: fit-content;
+}
+main {
+    flex: 1;
+    background-color: var(--background-white);
+    border-radius: 10px;
+    height: calc(100vh - 40px);
+    padding: 20px;
+}
+main *{
+    color:var(--text-color);
+}
+main .content{
+    height: 100%;
+    position: relative;
+}
+
+::deep .alert{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 99;
+    width: fit-content;
+    animation-name: ShowAlert;
+    animation-duration: 1s;
+    transition: all 0.3s;
+}
+@keyframes ShowAlert {
+    from { right: -200px;}
+    to { right: 20px;}
+}
+
+
